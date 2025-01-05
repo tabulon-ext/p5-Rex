@@ -1,9 +1,14 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
 use autodie;
 
 BEGIN {
   use Test::More;
+  use Test::Warnings;
   use Rex::Commands::Run;
 
   can_run('rsync') or plan skip_all => 'Could not find rsync command';
@@ -12,7 +17,7 @@ BEGIN {
     or plan skip_all => 'Could not load Rex::Commands::Rsync module';
 }
 
-use Cwd qw(realpath);
+use Cwd            qw(realpath);
 use File::Basename qw(basename dirname);
 use File::Find;
 use File::Temp qw(tempdir);
@@ -28,7 +33,7 @@ my %source_for = (
   'rsync with wildcard in relative path' => 't/sync/*',
 );
 
-plan tests => 2 * scalar keys %source_for;
+plan tests => 1 + 2 * scalar keys %source_for;
 
 for my $scenario ( sort keys %source_for ) {
   test_rsync( $scenario, $source_for{$scenario} );

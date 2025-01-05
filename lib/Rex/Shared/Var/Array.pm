@@ -1,13 +1,10 @@
 #
 # (c) Jan Gehring <jan.gehring@gmail.com>
 #
-# vim: set ts=2 sw=2 tw=0:
-# vim: set expandtab:
 
 package Rex::Shared::Var::Array;
 
-use 5.010001;
-use strict;
+use v5.12.5;
 use warnings;
 
 use Rex::Shared::Var::Common qw/__lock __store __retrieve/;
@@ -83,7 +80,7 @@ sub PUSH {
   __lock sub {
     my $ref = __retrieve;
 
-    if ( !ref( $ref->{ $self->{varname} }->{data} ) eq "ARRAY" ) {
+    if ( ref( $ref->{ $self->{varname} }->{data} ) ne "ARRAY" ) {
       $ref->{ $self->{varname} }->{data} = [];
     }
 
@@ -100,7 +97,7 @@ sub UNSHIFT {
   __lock sub {
     my $ref = __retrieve;
 
-    if ( !ref( $ref->{ $self->{varname} }->{data} ) eq "ARRAY" ) {
+    if ( ref( $ref->{ $self->{varname} }->{data} ) ne "ARRAY" ) {
       $ref->{ $self->{varname} }->{data} = [];
     }
 

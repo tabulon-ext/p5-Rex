@@ -1,13 +1,10 @@
 #
 # (c) Jan Gehring <jan.gehring@gmail.com>
 #
-# vim: set ts=2 sw=2 tw=0:
-# vim: set expandtab:
 
 package Rex::Virtualization::VBox::start;
 
-use 5.010001;
-use strict;
+use v5.12.5;
 use warnings;
 
 our $VERSION = '9999.99.99_99'; # VERSION
@@ -50,7 +47,7 @@ sub execute {
   if ($headless) {
     my $filename = get_tmp_file;
 
-    file( "$filename", content => <<EOF);
+    file( "$filename", content => <<EOF );
 use POSIX();
 
 my \$pid = fork();

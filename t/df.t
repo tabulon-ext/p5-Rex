@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 36;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 37;
+use Test::Warnings;
 
 use Rex::Commands::Fs;
 
@@ -65,4 +70,3 @@ is( $df->{"/dev/mapper/vg_c6test0232-lv_root"}->{used},
   1693244, "/dev/mapper/vg_c6test0232-lv_root used" );
 is( $df->{"/dev/mapper/vg_c6test0232-lv_root"}->{size},
   18102140, "/dev/mapper/vg_c6test0232-lv_root size" );
-

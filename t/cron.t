@@ -1,6 +1,14 @@
-use Test::More;
+#!/usr/bin/env perl
 
-$^O =~ m/^MSWin/ ? plan tests => 83 : plan tests => 286;
+use v5.12.5;
+use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More;
+use Test::Warnings;
+
+$^O =~ m/^MSWin/ ? plan tests => 84 : plan tests => 287;
 
 use Rex::Cron::Base;
 
@@ -528,4 +536,3 @@ unless ( $^O =~ m/^MSWin/ ) {
   is( $cron[0]->{value}, "/bin/bash",       "3rd env name" );
   is( $cron[0]->{line},  'SHELL=/bin/bash', "3rd env name" );
 }
-

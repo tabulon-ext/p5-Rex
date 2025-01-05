@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 1;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 2;
+use Test::Warnings qw(:no_end_test had_no_warnings);
 
 use Rex::Args;
 use Rex::RunList;
@@ -34,3 +39,4 @@ my $run_list = Rex::RunList->instance;
 $run_list->parse_opts(@ARGV);
 $run_list->run_tasks;
 
+had_no_warnings();

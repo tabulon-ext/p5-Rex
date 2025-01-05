@@ -1,6 +1,11 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
 use Test::More;
+use Test::Warnings;
 
 my %have_mods = (
   'Net::SSH2'    => 1,
@@ -20,7 +25,7 @@ unless ( $have_mods{'Net::SSH2'} or $have_mods{'Net::OpenSSH'} ) {
     'SSH module not found. You need Net::SSH2 or Net::OpenSSH to connect to servers via SSH.';
 }
 else {
-  plan tests => 36;
+  plan tests => 37;
 }
 
 use Rex::Task;
@@ -191,4 +196,3 @@ is_deeply( \@l, [ "e1", "e2" ], "task successfully returned a list" );
 param_test1( { name => "foo" } );
 param_test2( city => "bar" );
 param_test3( "blah", "blub", "bumm" );
-
