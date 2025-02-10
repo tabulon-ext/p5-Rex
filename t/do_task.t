@@ -1,8 +1,13 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
+our $VERSION = '9999.99.99_99'; # VERSION
+
 use Rex::Commands;
-use Test::More tests => 4;
+use Test::More tests => 5;
+use Test::Warnings;
 
 eval { Rex::Commands::do_task("non_existing_task"); };
 my $result = $@;

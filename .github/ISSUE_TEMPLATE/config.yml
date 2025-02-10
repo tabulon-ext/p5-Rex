@@ -1,0 +1,12 @@
+---
+blank_issues_enabled: false
+contact_links:
+    - name: Start a discussion
+      url: https://www.rexify.org/support/index.html
+      about: Start a discussion via our support channels
+    - name: Report a potential bug
+      url: https://github.com/RexOps/Rex/discussions/categories/potential-issues
+      about: Create a report to help us improve Rex
+    - name: Share an improvement idea
+      url: https://github.com/RexOps/Rex/discussions/categories/ideas
+      about: Suggest an idea about how to improve Rex

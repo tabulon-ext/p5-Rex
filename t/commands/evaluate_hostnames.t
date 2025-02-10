@@ -1,9 +1,12 @@
 #!/usr/bin/env perl
 
-use strict;
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 9;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 10;
+use Test::Warnings;
 use Rex::Commands;
 
 my %tests = (

@@ -1,4 +1,12 @@
-use Test::More tests => 11;
+#!/usr/bin/env perl
+
+use v5.12.5;
+use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 12;
+use Test::Warnings;
 use Rex -base;
 use Rex::Resource;
 use Rex::Resource::Common;
@@ -72,6 +80,3 @@ task(
 );
 
 test1( { file => "/etc/securetty" } );
-
-done_testing();
-

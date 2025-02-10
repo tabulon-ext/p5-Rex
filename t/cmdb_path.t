@@ -1,12 +1,12 @@
 #!/usr/bin/env perl
 
-use 5.010;
-use strict;
+use v5.12.5;
 use warnings;
 
 our $VERSION = '9999.99.99_99'; # VERSION
 
-use Test::More tests => 3;
+use Test::More tests => 4;
+use Test::Warnings;
 
 use Cwd qw(realpath);
 use File::Spec;

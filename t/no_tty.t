@@ -1,4 +1,12 @@
-use Test::More tests => 3;
+#!/usr/bin/env perl
+
+use v5.12.5;
+use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 4;
+use Test::Warnings;
 
 use Rex::Commands::Run;
 use Rex::Config;
@@ -20,4 +28,3 @@ SKIP: {
   $s = run("ls -l /jllkjlkj");
   like( $s, qr/No such file/, "again with tty" );
 }
-

@@ -1,8 +1,13 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
+our $VERSION = '9999.99.99_99'; # VERSION
+
 use Rex::Virtualization;
-use Test::More tests => 6;
+use Test::More tests => 7;
+use Test::Warnings;
 use Data::Dumper;
 use Rex::Helper::Run;
 use Rex::Commands::File;
@@ -84,4 +89,3 @@ $v->execute(
 
 is( $count_exec, 2, "Executed qemu-img 2 times." );
 is( $count_file, 2, "Created virsh file 2 times." );
-

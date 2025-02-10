@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
+our $VERSION = '9999.99.99_99'; # VERSION
+
 use Test::More;
+use Test::Warnings qw(:no_end_test had_no_warnings);
 
 use Rex::Args;
 use Rex::RunList;
@@ -38,4 +43,5 @@ is_deeply [ $tasks[2]->get_args ], [qw//],          "task2 args";
 
 $run_list->run_tasks;
 
+had_no_warnings;
 done_testing;

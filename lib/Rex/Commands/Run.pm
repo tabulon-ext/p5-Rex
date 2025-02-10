@@ -1,8 +1,6 @@
 #
 # (c) Jan Gehring <jan.gehring@gmail.com>
 #
-# vim: set ts=2 sw=2 tw=0:
-# vim: set expandtab:
 
 =head1 NAME
 
@@ -17,14 +15,31 @@ With this module you can run a command.
  my $output = run 'ls -l';
  sudo 'id';
 
+=head1 CONFIGURATION AND ENVIRONMENT
+
+Please note that Rex may set the C<PATH> environment variable when executing commands on the user's behalf to a different value compared to executing the same commands manually. The following are available to control the related behavior:
+
+=over 4
+
+=item L<path|Rex::Commands#path> command
+
+=item L<set_path|Rex::Config#set_path> configuration option
+
+=item L<no_path_cleanup|Rex#no_path_cleanup> feature flag
+
+=item L<source_profile|Rex#source_profile> feature flag
+
+=item L<source_global_profile|Rex#source_global_profile> feature flag
+
+=back
+
 =head1 EXPORTED FUNCTIONS
 
 =cut
 
 package Rex::Commands::Run;
 
-use 5.010001;
-use strict;
+use v5.12.5;
 use warnings;
 
 our $VERSION = '9999.99.99_99'; # VERSION
@@ -41,6 +56,7 @@ use Rex::Helper::SSH2::Expect;
 use Rex::Config;
 use Rex::Interface::Exec;
 use Rex::Interface::Fs;
+use English qw(-no_match_vars);
 
 BEGIN {
   if ( $^O !~ m/^MSWin/ ) {
@@ -68,7 +84,14 @@ in the C<$?> variable.
  my $output       = run 'uptime';
  my @output_lines = run 'uptime';
 
-It supports optional callbacks as subroutine reference, which will receive the command's output sent to C<STDOUT> and C<STDERR>.
+Please note when the C<L<tty|Rex#tty>> feature flag is enabled the
+combined output containing both C<STDOUT> and C<STDERR> is returned
+via C<STDOUT>. When using the C<L<no_tty|Rex#no_tty>> feature flag, or
+the C<L<1.0|Rex#1.0>> feature bundle (or newer), then C<run()> returns
+only the C<STDOUT> output of the command.
+
+To access separate C<STDOUT> and C<STDERR> output, use a callback
+subroutine, for example:
 
  run 'uptime', sub {
    my ( $stdout, $stderr ) = @_;
@@ -110,7 +133,7 @@ Die if the command returns with an exit code indicating failure. It can be set g
 
 =item command => $command_to_run
 
-If present, Rex will execute C<$command_to_run>, and treat the first arugment as an identifier for the given C<run()> block (e.g. to be triggered with notify).
+If present, Rex will execute C<$command_to_run>, and treat the first argument as an identifier for the given C<run()> block (e.g. to be triggered with notify).
 
 =item creates => $file_to_create
 
@@ -152,7 +175,7 @@ If you want to end the command upon receiving a certain output:
 =head2 run($command, $arguments, %options)
 
 This form will execute C<$command> with the given C<$arguments> pass as an array reference.
-All arguments will be quoted by Rex with C<Net::OpenSSH::ShellQuoter->quoter()> according to the managed host's shell.
+All arguments will be quoted by Rex with C<Net::OpenSSH::ShellQuoter-E<gt>quoter()> according to the managed host's shell.
 
  run 'ls', [ '-l', '-t', '-r', '-a' ];
  run 'ls', [ '/tmp', '-l' ], auto_die => TRUE;
@@ -275,7 +298,10 @@ sub run {
     my $exec = Rex::Interface::Exec->create;
 
     if ( $args && ref($args) eq "ARRAY" ) {
-      my $quoter = Net::OpenSSH::ShellQuoter->quoter( $exec->shell->name );
+      my $shell =
+        Rex::is_local() && $OSNAME eq 'MSWin32' ? 'MSWin' : $exec->shell->name;
+
+      my $quoter = Net::OpenSSH::ShellQuoter->quoter($shell);
       $cmd = "$cmd " . join( " ", map { $quoter->quote($_) } @{$args} );
     }
 
@@ -384,7 +410,7 @@ Depending on your remote sudo configuration, you may need to define a sudo passw
 Or alternatively, since Rexfile is plain perl, you can read the password from terminal at the start:
 
  use Term::ReadKey;
- 
+
  print 'I need sudo password: ';
  ReadMode('noecho');
  sudo_password ReadLine(0);
@@ -400,9 +426,9 @@ To run only a specific command with sudo, use :
 
  say sudo 'id';                # passing a remote command directly
  say sudo { command => 'id' }; # passing anonymous hashref
- 
+
  say sudo { command => 'id', user => 'different' }; # run a single command with sudo as different user
- 
+
 To run multiple commands with C<sudo>, either use an anonymous code reference directly:
 
  sudo sub {

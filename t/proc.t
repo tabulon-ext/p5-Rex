@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 2;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 3;
+use Test::Warnings;
 use Test::Output;
 use Rex::Inventory::Proc;
 

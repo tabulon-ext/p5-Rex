@@ -1,9 +1,14 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
 
 use Rex::CLI;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
+use Test::Warnings;
 
 my $ok = 0;
 
@@ -22,4 +27,3 @@ eval {
 };
 
 is( $ok, 1, "Rexfile with true return value was loaded successfull." );
-

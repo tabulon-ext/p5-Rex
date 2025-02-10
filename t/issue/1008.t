@@ -1,9 +1,14 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
 
 use Rex::Helper::IP;
 
-use Test::More tests => 16;
+use Test::More tests => 17;
+use Test::Warnings;
 
 my $ok = 0;
 

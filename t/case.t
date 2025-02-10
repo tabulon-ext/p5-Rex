@@ -1,4 +1,12 @@
-use Test::More tests => 7;
+#!/usr/bin/env perl
+
+use v5.12.5;
+use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 8;
+use Test::Warnings;
 use Rex::Commands;
 
 my $test = "Debian";

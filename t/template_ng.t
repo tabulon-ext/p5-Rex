@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 21;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 22;
+use Test::Warnings;
 use Rex::Template::NG;
 use Rex::Commands;
 use Rex::Config;
@@ -141,4 +146,3 @@ for my $key ( keys %{$v} ) {
     "$var_name is equal to " . $v->{$key}->{name}
   );
 }
-

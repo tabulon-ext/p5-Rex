@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 6;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 7;
+use Test::Warnings qw(:no_end_test had_no_warnings);
 
 use Rex::Args;
 use Rex::RunList;
@@ -106,3 +111,4 @@ is_deeply(
   "got task3 parameter with 1.4 compatibility"
 );
 
+had_no_warnings();

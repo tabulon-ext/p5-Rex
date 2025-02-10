@@ -1,7 +1,12 @@
-use strict;
+#!/usr/bin/env perl
+
+use v5.12.5;
 use warnings;
 
-use Test::More tests => 139;
+our $VERSION = '9999.99.99_99'; # VERSION
+
+use Test::More tests => 140;
+use Test::Warnings;
 
 use Rex -feature => '0.31';
 

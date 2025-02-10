@@ -1,8 +1,6 @@
 #
 # (c) Jan Gehring <jan.gehring@gmail.com>
 #
-# vim: set ts=2 sw=2 tw=0:
-# vim: set expandtab:
 
 =head1 NAME
 
@@ -32,8 +30,7 @@ While it's possible to use the methods below to set a configuration option direc
 
 package Rex::Config;
 
-use 5.010001;
-use strict;
+use v5.12.5;
 use warnings;
 
 our $VERSION = '9999.99.99_99'; # VERSION
@@ -76,7 +73,8 @@ our (
   $use_template_ng,             $use_rex_kvm_agent,
   $autodie,                     $task_chaining_cmdline_args,
   $waitpid_blocking_sleep_time, $write_utf8_files,
-  $default_auth,
+  $default_auth,                $augeas_commands_prepend,
+  $local_augeas_backend,
 );
 
 # some defaults
@@ -114,7 +112,7 @@ sub get_autodie {
 
 Sets and gets the value of the C<$use_net_openssh_if_present> configuration variable.
 
-This controls whether Rex should use L<Net::OpenSSH> for connections if that is available. 
+This controls whether Rex should use L<Net::OpenSSH> for connections if that is available.
 
 Default is C<undef>.
 
@@ -366,7 +364,7 @@ sub get_exec_autodie {
 
 Sets and gets the value of the C<$no_path_cleanup> configuration variable.
 
-This controls whether Rex should clean up the C<$PATH> before executing a L<run|Rex::Commands::Run#run> command.
+This controls whether Rex should use either the default or the explicitly configured C<PATH> settings (via L<path|Rex::Commands#path> or L<set_path>) when executing commands or not.
 
 Default is C<undef>.
 
@@ -726,7 +724,9 @@ sub get_tmp_dir {
 
 Sets and gets the value of the C<$path> configuration variable.
 
-This controls which C<PATH> Rex should use when executing L<run|Rex::Commands::Run#run> commands. The value should be set as an array reference, and will be dereferenced as such before returned by C<get_path>.
+This controls which C<PATH> Rex should use when executing commands via the L<Rex::Commands::Run> module.
+
+The value should be set as an array reference, and will be dereferenced as such before returned by C<get_path>. The L<path|Rex::Commands#path> command is a convenience wrapper for C<set_path>, and accepts an array.
 
 Default is
 
@@ -1631,6 +1631,50 @@ sub set_default_auth {
 
 sub get_default_auth {
   return $default_auth // 1;
+}
+
+=head2 set_augeas_commands_prepend
+
+=head2 get_augeas_commands_prepend
+
+Sets and gets the value of the C<$augeas_commands_prepend> configuration variable.
+
+This controls the list of commands Rex should prepend at the beginning of the command file for Augeas operations.
+
+Default is C<[]>.
+
+=cut
+
+sub set_augeas_commands_prepend {
+  my $self = shift;
+  $augeas_commands_prepend = shift;
+  return $augeas_commands_prepend;
+}
+
+sub get_augeas_commands_prepend {
+  return $augeas_commands_prepend // [];
+}
+
+=head2 set_local_augeas_backend
+
+=head2 get_local_augeas_backend
+
+Sets and gets the value of the C<$local_augeas_backend> configuration variable.
+
+This controls which Augeas backend to use for local operations, C<augtool> or C<Config::Augeas>.
+
+Default is C<Config::Augeas>.
+
+=cut
+
+sub set_local_augeas_backend {
+  my $self = shift;
+  $local_augeas_backend = shift;
+  return $local_augeas_backend;
+}
+
+sub get_local_augeas_backend {
+  return $local_augeas_backend // 'Config::Augeas';
 }
 
 =head2 register_set_handler($handler_name, $code)

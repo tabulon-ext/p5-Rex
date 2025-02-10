@@ -1,8 +1,16 @@
+#!/usr/bin/env perl
+
+use v5.12.5;
+use warnings;
+
+our $VERSION = '9999.99.99_99'; # VERSION
+
 package MyTest;
 
 use Rex -base;
 use Rex::Resource::Common;
 use Test::More;
+use Test::Warnings;
 
 $::QUIET = 1;
 
@@ -20,6 +28,7 @@ package main;
 
 use Rex -base;
 use Test::More;
+use Test::Warnings;
 
 use Rex::CMDB;
 use Rex::Commands;
@@ -33,7 +42,7 @@ set(
   }
 );
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 use Rex -base;
 
 task(
@@ -44,4 +53,3 @@ task(
 );
 
 test1();
-
